@@ -24,4 +24,11 @@ echo "---> Installing application source..."
 cp -Rf /tmp/src/. ./
 
 echo "---> Building application from source..."
-./gradlew build
+GRADLE_ARGS=${GRADLE_ARGS:-"build"}
+if [ -f "gradlew" ]; then
+  echo "---> Building application with gradle wrapper..."
+  ./gradlew $GRADLE_ARGS
+else
+  echo "---> Building application with installed gradle..."
+  gradle $GRADLE_ARGS
+fi
