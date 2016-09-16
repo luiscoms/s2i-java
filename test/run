@@ -20,6 +20,7 @@ if (echo "$OSTYPE" | egrep -qs 'darwin'); then
   ! type -a "gmktemp" &>"/dev/null" || MKTEMP_EXEC="gmktemp"
 fi
 
+test_project=${1}
 test_dir="$($READLINK_EXEC -zf $(dirname "${BASH_SOURCE[0]}"))"
 image_dir=$($READLINK_EXEC -zf ${test_dir}/..)
 scripts_url="file://${image_dir}/.s2i/bin"
@@ -30,7 +31,7 @@ cid_file=$($MKTEMP_EXEC -u --suffix=.cid)
 s2i_args="--pull-policy=never --loglevel=2"
 
 # Port the image exposes service to be tested
-test_port=8080
+test_port="$(docker inspect --format='{{range $key, $value := .ContainerConfig.ExposedPorts }}{{$key}}{{end}}' ${IMAGE_NAME} | sed 's/\/.*//')"
 
 image_exists() {
   docker inspect $1 &>/dev/null
@@ -45,7 +46,7 @@ container_ip() {
 }
 
 run_s2i_build() {
-  s2i build --incremental=true ${s2i_args} file://${test_dir}/test-app ${IMAGE_NAME} ${IMAGE_NAME}-testapp
+  s2i build --incremental=true ${sti_args} file://${test_dir}/${test_project} ${IMAGE_NAME} ${IMAGE_NAME}-${test_project}
 }
 
 prepare() {
@@ -54,7 +55,7 @@ prepare() {
     exit 1
   fi
   # s2i build requires the application is a valid 'Git' repository
-  pushd ${test_dir}/test-app >/dev/null
+  pushd ${test_dir}/${test_project} >/dev/null
   git init
   git config user.email "build@localhost" && git config user.name "builder"
   git add -A && git commit -m "Sample commit"
@@ -63,7 +64,7 @@ prepare() {
 }
 
 run_test_application() {
-  docker run --rm --cidfile=${cid_file} -p ${test_port} ${IMAGE_NAME}-testapp
+  docker run --rm --cidfile=${cid_file} -p ${test_port} ${IMAGE_NAME}-${test_project}
 }
 
 cleanup() {
@@ -75,6 +76,7 @@ cleanup() {
   if image_exists ${IMAGE_NAME}-testapp; then
     docker rmi ${IMAGE_NAME}-testapp
   fi
+  rm -rf ${test_dir}/${test_project}/.git
 }
 
 check_result() {
@@ -152,3 +154,5 @@ check_result $?
 
 cleanup
 
+check_result $?
+echo "All tests finished successfully."

@@ -1,3 +1,7 @@
+# springboot-maven3-centos
+#
+# This image provide a base for running Spring Boot based applications.
+# It provides a base Java 8 installation.
 FROM openshift/base-centos7
 
 MAINTAINER Luis Fernando Gomes <dev@luiscoms.com.br>
@@ -18,15 +22,12 @@ RUN yum update -y && \
 
 ENV JAVA_HOME /usr/lib/jvm/java
 
-COPY ./s2i/bin/ $STI_SCRIPTS_PATH
+RUN ls -la /usr/libexec/
+
+COPY ./Makefile $STI_SCRIPTS_PATH
 
 RUN chown -R 1001:1001 /opt/app-root
 
-# This default user is created in the openshift/base-centos7 image
 USER 1001
 
-# TODO: Set the default port for applications built using this image
-# EXPOSE 8080
-
-# TODO: Set the default CMD for the image
-# CMD ["usage"]
+CMD $STI_SCRIPTS_PATH/usage
