@@ -24,7 +24,7 @@ ENV JAVA_HOME /usr/lib/jvm/java
 
 RUN ls -la /usr/libexec/
 
-COPY ./Makefile $STI_SCRIPTS_PATH
+COPY ./.s2i/bin/ $STI_SCRIPTS_PATH
 
 RUN chown -R 1001:1001 /opt/app-root
 
