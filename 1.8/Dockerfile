@@ -1,4 +1,4 @@
-# springboot-maven3-centos
+# s2i-java
 #
 # This image provide a base for running Spring Boot based applications.
 # It provides a base Java 8 installation.
@@ -8,7 +8,7 @@ MAINTAINER Luis Fernando Gomes <dev@luiscoms.com.br>
 
 EXPOSE 8080
 
-ENV JAVA_VERSON 1.8.0
+ENV JAVA_VERSION 1.8.0
 
 LABEL io.k8s.description="Platform for building and running Spring Boot applications" \
       io.k8s.display-name="Spring Boot Gradle" \
@@ -17,7 +17,7 @@ LABEL io.k8s.description="Platform for building and running Spring Boot applicat
 
 RUN yum update -y && \
   yum install -y curl && \
-  yum install -y java-$JAVA_VERSON-openjdk java-$JAVA_VERSON-openjdk-devel && \
+  yum install -y java-$JAVA_VERSION-openjdk java-$JAVA_VERSION-openjdk-devel && \
   yum clean all
 
 ENV JAVA_HOME /usr/lib/jvm/java

@@ -14,10 +14,10 @@ if [[ "$1" == "-h" ]]; then
 fi
 
 # Restore artifacts from the previous build (if they exist).
-#
+echo "---> Restoring build artifacts..."
 if [ "$(ls /tmp/artifacts/ 2>/dev/null)" ]; then
-  echo "---> Restoring build artifacts..."
-  mv /tmp/artifacts/. ./
+  echo "---> Restoring found build artifacts..."
+  cp -Rf /tmp/artifacts/. ./
 fi
 
 echo "---> Installing application source..."

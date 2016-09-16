@@ -1,23 +1,7 @@
+# Variables are documented in hack/build.sh.
+BASE_IMAGE_NAME = python
+VERSIONS = 1.8
+OPENSHIFT_NAMESPACES = 3.3
 
-IMAGE_NAME = s2i-gradle
-
-build:
-	docker build -t $(IMAGE_NAME) .
-
-.PHONY: test
-test:
-	docker build -t $(IMAGE_NAME)-candidate .
-	IMAGE_NAME=$(IMAGE_NAME)-candidate test/run test-app
-
-
-.PHONY: clean
-clean:
-	# Remove image
-	docker images --format "{{.Repository}}:{{.Tag}}" | grep $(IMAGE_NAME) && \
-	 docker rmi --force $(docker images --format "{{.Repository}}:{{.Tag}}" | grep $(IMAGE_NAME)) \
-	 || echo "Image $(IMAGE_NAME) not found"
-	# Remove candidate image
-	docker images --format "{{.Repository}}:{{.Tag}}" | grep $(IMAGE_NAME)-candidate && \
-	 docker rmi --force $(docker images --format "{{.Repository}}:{{.Tag}}" | grep $(IMAGE_NAME)-candidate) \
-	 || echo "Image $(IMAGE_NAME)-candidate not found"
-
+# Include common Makefile code.
+include hack/common.mk

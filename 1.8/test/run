@@ -42,7 +42,11 @@ container_exists() {
 }
 
 container_ip() {
-  docker inspect --format="{{ .NetworkSettings.IPAddress }}" $(cat $cid_file)
+  if (echo "$OSTYPE" | egrep -qs 'darwin'); then
+    docker-machine ip
+  else
+    docker inspect --format="{{ .NetworkSettings.IPAddress }}" $(cat $cid_file)
+  fi
 }
 
 run_s2i_build() {
