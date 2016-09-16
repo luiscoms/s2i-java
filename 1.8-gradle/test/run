@@ -77,8 +77,8 @@ cleanup() {
       docker stop $(cat $cid_file)
     fi
   fi
-  if image_exists ${IMAGE_NAME}-testapp; then
-    docker rmi ${IMAGE_NAME}-testapp
+  if image_exists ${IMAGE_NAME}-${test_project}; then
+    docker rmi ${IMAGE_NAME}-${test_project}
   fi
   rm -rf ${test_dir}/${test_project}/.git
 }
