@@ -1,0 +1,35 @@
+#!/bin/bash -e
+#
+# S2I assemble script for the 's2i-gradle' image.
+# The 'assemble' script builds your application source so that it is ready to run.
+#
+# For more information refer to the documentation:
+#	https://github.com/openshift/source-to-image/blob/master/docs/builder_image.md
+#
+
+if [[ "$1" == "-h" ]]; then
+	# If the 's2i-gradle' assemble script is executed with '-h' flag,
+	# print the usage.
+	exec /usr/libexec/s2i/usage
+fi
+
+# Restore artifacts from the previous build (if they exist).
+echo "---> Restoring build artifacts..."
+if [ "$(ls -A /tmp/artifacts/ 2>/dev/null)" ]; then
+  echo "---> Restoring found build artifacts..."
+  cp -Rf /tmp/artifacts/. ./
+fi
+
+echo "---> Installing application source..."
+cp -Rf /tmp/src/. ./
+
+echo "---> Building application from source..."
+MVN_ARGS=${MVN_ARGS:-"install"}
+echo "--> # MVN_ARGS = $MVN_ARGS"
+if [ -f "mvnw" ]; then
+  echo "---> Building application with maven wrapper..."
+  ./mvnw $MVN_ARGS
+else
+  echo "---> Building application with installed maven..."
+  mvn $MVN_ARGS
+fi

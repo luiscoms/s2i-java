@@ -1,6 +1,5 @@
 # Variables are documented in hack/build.sh.
-BASE_IMAGE_NAME = python
-VERSIONS = 1.8
+VERSIONS = 1.8-gradle 1.8-maven
 OPENSHIFT_NAMESPACES = 3.3
 
 # Include common Makefile code.
