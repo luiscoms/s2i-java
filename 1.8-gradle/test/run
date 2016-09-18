@@ -1,4 +1,3 @@
-
 #!/bin/bash
 #
 # The 'run' performs a simple test that verifies the S2I image.
