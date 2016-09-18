@@ -11,7 +11,7 @@ EXPOSE 8080
 ENV JAVA_VERSION 1.8.0
 
 LABEL io.k8s.description="Platform for building and running Spring Boot applications" \
-      io.k8s.display-name="Spring Boot Gradle" \
+      io.k8s.display-name="Spring Boot Maven" \
       io.openshift.expose-services="8080:http" \
       io.openshift.tags="builder,java,java8,maven,springboot"
 
