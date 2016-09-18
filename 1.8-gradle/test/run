@@ -9,7 +9,7 @@
 # IMAGE_NAME specifies a name of the candidate image used for testing.
 # The image has to be available before this script is executed.
 #
-IMAGE_NAME=${IMAGE_NAME-s2i-gradle-candidate}
+IMAGE_NAME=${IMAGE_NAME-s2i-java8-gradle-candidate}
 
 # Determining system utility executables (darwin compatibility check)
 READLINK_EXEC="readlink"
@@ -20,7 +20,7 @@ if (echo "$OSTYPE" | egrep -qs 'darwin'); then
 fi
 
 test_project=${1}
-test_dir="$($READLINK_EXEC -zf $(dirname "${BASH_SOURCE[0]}"))"
+test_dir="$($READLINK_EXEC -zf $(dirname "${0}"))"
 image_dir=$($READLINK_EXEC -zf ${test_dir}/..)
 scripts_url="file://${image_dir}/.s2i/bin"
 cid_file=$($MKTEMP_EXEC -u --suffix=.cid)
@@ -45,6 +45,14 @@ container_ip() {
     docker-machine ip
   else
     docker inspect --format="{{ .NetworkSettings.IPAddress }}" $(cat $cid_file)
+  fi
+}
+
+container_port() {
+  if (echo "$OSTYPE" | egrep -qs 'darwin'); then
+    docker inspect --format='{{(index (index .NetworkSettings.Ports "8080/tcp") 0).HostPort}}' $(cat $cid_file)
+  else
+    echo $test_port
   fi
 }
 
@@ -115,14 +123,15 @@ test_connection() {
   local sleep_time=1
   local attempt=1
   local result=1
+
   while [ $attempt -le $max_attempts ]; do
-    echo "Sending GET request to http://$(container_ip):${test_port}/"
+    echo "Sending GET request to http://$(container_ip):$(container_port)/"
     if (echo "$OSTYPE" | egrep -qs 'darwin'); then
       echo "Warning for OSX users: if you can't access the container's IP ${container_ip} directly (because you use boot2docker for example)"
       echo "you should run the curl command in a container, for example using:"
-      echo "docker run --rm -it sequenceiq/alpine-curl curl -s -w %{http_code} -o /dev/null http://$(container_ip):${test_port}/"
+      echo "docker run --rm -it sequenceiq/alpine-curl curl -s -w %{http_code} -o /dev/null http://$(container_ip):$(container_port)/"
     fi
-    response_code=$(curl -s -w %{http_code} -o /dev/null http://$(container_ip):${test_port}/)
+    response_code=$(curl -s -w %{http_code} -o /dev/null http://$(container_ip):$(container_port)/)
     status=$?
     if [ $status -eq 0 ]; then
       if [ $response_code -eq 200 ]; then
