@@ -43,7 +43,6 @@ image_exists() {
 
 container_exists() {
   image_exists $(cat $cid_file)
-  docker ps -a
 }
 
 container_ip() {
@@ -89,6 +88,7 @@ cleanup() {
     if container_exists; then
       docker stop $(cat $cid_file)
     fi
+    rm -rf $cid_file
   fi
   if image_exists ${IMAGE_NAME}-${test_project}; then
     echo "Removing image ${IMAGE_NAME}-${test_project}"
