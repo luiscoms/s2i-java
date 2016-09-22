@@ -140,13 +140,13 @@ test_connection() {
     fi
     response_code=$(curl -s -w %{http_code} -o /dev/null http://$(container_ip):$(container_port)/)
     status=$?
-    echo "Validating response_code($response_code) == 200"
     if [ $status -eq 0 ]; then
       if [ $response_code -eq 200 ]; then
         result=0
       fi
       break
     fi
+    echo "Validating response_code($response_code) == 200"
     attempt=$(( $attempt + 1 ))
     sleep $sleep_time
   done

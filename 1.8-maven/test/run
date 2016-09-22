@@ -139,7 +139,6 @@ test_connection() {
       echo "docker run --rm -it sequenceiq/alpine-curl curl -s -w %{http_code} -o /dev/null http://$(container_ip):$(container_port)/"
     fi
     response_code=$(curl -s -w %{http_code} -o /dev/null http://$(container_ip):$(container_port)/)
-    echo "Validating response_code($response_code) == 200"
     status=$?
     if [ $status -eq 0 ]; then
       if [ $response_code -eq 200 ]; then
@@ -147,6 +146,7 @@ test_connection() {
       fi
       break
     fi
+    echo "Validating response_code($response_code) == 200"
     attempt=$(( $attempt + 1 ))
     sleep $sleep_time
   done
