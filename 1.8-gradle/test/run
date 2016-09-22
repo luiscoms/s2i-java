@@ -138,7 +138,6 @@ test_connection() {
       echo "you should run the curl command in a container, for example using:"
       echo "docker run --rm -it sequenceiq/alpine-curl curl -s -w %{http_code} -o /dev/null http://$(container_ip):$(container_port)/"
     fi
-    ping -c 3 $(container_ip)
     response_code=$(curl -s -w %{http_code} -o /dev/null http://$(container_ip):$(container_port)/)
     status=$?
     echo "Validating response_code($response_code) == 200"

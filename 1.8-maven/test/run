@@ -39,7 +39,6 @@ test_port="$(docker inspect --format='{{range $key, $value := .ContainerConfig.E
 
 image_exists() {
   docker inspect $1 &>/dev/null
-  docker ps -a
 }
 
 container_exists() {
@@ -89,8 +88,10 @@ cleanup() {
     if container_exists; then
       docker stop $(cat $cid_file)
     fi
+    rm -rf $cid_file
   fi
   if image_exists ${IMAGE_NAME}-${test_project}; then
+    echo "Removing image ${IMAGE_NAME}-${test_project}"
     docker rmi ${IMAGE_NAME}-${test_project}
   fi
   rm -rf ${test_dir}/${test_project}/.git
@@ -126,12 +127,12 @@ test_usage() {
 test_connection() {
   echo "Testing HTTP connection..."
   local max_attempts=10
-  local sleep_time=1
+  local sleep_time=3
   local attempt=1
   local result=1
 
   while [ $attempt -le $max_attempts ]; do
-    echo "Sending GET request to http://$(container_ip):$(container_port)/"
+    echo "Sending GET request($attempt) to http://$(container_ip):$(container_port)/"
     if (echo "$OSTYPE" | egrep -qs 'darwin'); then
       echo "Warning for OSX users: if you can't access the container's IP ${container_ip} directly (because you use boot2docker for example)"
       echo "you should run the curl command in a container, for example using:"
