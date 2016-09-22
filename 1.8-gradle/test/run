@@ -62,7 +62,7 @@ container_port() {
 }
 
 run_s2i_build() {
-  s2i build --incremental=true ${sti_args} file://${test_dir}/${test_project} ${IMAGE_NAME} ${IMAGE_NAME}-${test_project}
+  s2i build --incremental=true ${s2i_args} file://${test_dir}/${test_project} ${IMAGE_NAME} ${IMAGE_NAME}-${test_project}
 }
 
 prepare() {
