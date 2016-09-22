@@ -81,16 +81,13 @@ prepare() {
 
 run_test_application() {
   echo "Starting test application"
-  docker run -d --cidfile=${cid_file} -p ${test_port} ${IMAGE_NAME}-${test_project}
-  echo "Waiting test application start, sleep 5 seconds"
-  sleep 5
+  docker run --rm --cidfile=${cid_file} -p ${test_port} ${IMAGE_NAME}-${test_project}
 }
 
 cleanup() {
   if [ -f $cid_file ]; then
     if container_exists; then
       docker stop $(cat $cid_file)
-      docker rm $(cat $cid_file)
     fi
     rm -rf $cid_file
   fi
@@ -121,6 +118,8 @@ wait_for_cid() {
     attempt=$(( $attempt + 1 ))
     sleep $sleep_time
   done
+  echo "Waiting for test application start, sleep 5 seconds"
+  sleep 5
 }
 
 test_usage() {
@@ -168,7 +167,7 @@ test_usage
 check_result $?
 
 # Verify that the HTTP connection can be established to test application container
-run_test_application
+run_test_application &
 
 # Wait for the container to write its CID file
 wait_for_cid
