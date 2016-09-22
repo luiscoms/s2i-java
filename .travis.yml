@@ -14,4 +14,6 @@ install:
   - hack/build-go.sh
   - popd
 
-script: make test
+script: 
+  - make test VERSION=1-8-gradle
+  - make test VERSION=1-8-maven
