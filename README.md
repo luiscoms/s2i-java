@@ -1,6 +1,8 @@
 Java Docker images
 ====================
 
+[![Build Status](https://travis-ci.org/luiscoms/s2i-java.svg?branch=master)](https://travis-ci.org/luiscoms/s2i-java)
+
 This repository contains the source for building various versions of
 the Java application as a reproducible Docker image using
 [source-to-image](https://github.com/openshift/source-to-image).
@@ -13,8 +15,8 @@ official [OpenShift Documentation](https://docs.openshift.org/latest/using_image
 Versions
 ---------------
 Java versions currently provided are:
-* JDK-1.8 + Maven 3
 * JDK-1.8 + Gradle 2
+* JDK-1.8 + Maven 3
 
 CentOS versions currently supported are:
 * CentOS7
