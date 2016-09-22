@@ -8,14 +8,14 @@
 #
 
 if [[ "$1" == "-h" ]]; then
-	# If the 's2i-java8-gradle' assemble script is executed with '-h' flag,
-	# print the usage.
-	exec /usr/libexec/s2i/usage
+  # If the 's2i-java8-gradle' assemble script is executed with '-h' flag,
+  # print the usage.
+  exec /usr/libexec/s2i/usage
 fi
 
 # Restore artifacts from the previous build (if they exist).
 echo "---> Restoring build artifacts..."
-if [ "$(ls /tmp/artifacts/ 2>/dev/null)" ]; then
+if [ "$(ls -A /tmp/artifacts/ 2>/dev/null)" ]; then
   echo "---> Restoring found build artifacts..."
   cp -Rf /tmp/artifacts/. ./
 fi

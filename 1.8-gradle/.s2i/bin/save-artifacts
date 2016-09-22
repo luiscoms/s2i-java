@@ -8,5 +8,5 @@
 #	https://github.com/openshift/source-to-image/blob/master/docs/builder_image.md
 #
 if [ -d .gradle ];then
-  tar cf - .gradle gradle
+  tar cf - .gradle
 fi
