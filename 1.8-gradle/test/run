@@ -91,6 +91,7 @@ cleanup() {
     fi
   fi
   if image_exists ${IMAGE_NAME}-${test_project}; then
+    echo "Removing image ${IMAGE_NAME}-${test_project}"
     docker rmi ${IMAGE_NAME}-${test_project}
   fi
   rm -rf ${test_dir}/${test_project}/.git
@@ -107,7 +108,7 @@ check_result() {
 
 wait_for_cid() {
   local max_attempts=10
-  local sleep_time=1
+  local sleep_time=3
   local attempt=1
   local result=1
   while [ $attempt -le $max_attempts ]; do
@@ -131,12 +132,17 @@ test_connection() {
   local result=1
 
   while [ $attempt -le $max_attempts ]; do
-    echo "Sending GET request to http://$(container_ip):$(container_port)/"
+    echo "Sending GET request($attempt) to http://$(container_ip):$(container_port)/"
     if (echo "$OSTYPE" | egrep -qs 'darwin'); then
       echo "Warning for OSX users: if you can't access the container's IP ${container_ip} directly (because you use boot2docker for example)"
       echo "you should run the curl command in a container, for example using:"
       echo "docker run --rm -it sequenceiq/alpine-curl curl -s -w %{http_code} -o /dev/null http://$(container_ip):$(container_port)/"
     fi
+    echo "======================================================="
+    curl_file=$($MKTEMP_EXEC -u)
+    curl -v -o $curl_file http://$(container_ip):$(container_port)/ >> $curl_file
+    cat $curl_file
+    echo "======================================================="
     response_code=$(curl -s -w %{http_code} -o /dev/null http://$(container_ip):$(container_port)/)
     status=$?
     echo "Validating response_code($response_code) == 200"
