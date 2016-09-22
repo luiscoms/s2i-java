@@ -16,7 +16,5 @@ install:
 
 script: 
   - make test VERSION=1.8-gradle
-  - docker rm $(docker ps -aq --filter status="exited" --filter status="dead") 2>/dev/null
-  - docker rmi $(docker images --filter "dangling=true" -q | sort -u) 2>/dev/null
-  - docker volume rm $(docker volume ls -qf dangling=true) 2>/dev/null
+  - docker ps -a
   - make test VERSION=1.8-maven
