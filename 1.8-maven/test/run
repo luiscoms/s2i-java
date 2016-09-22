@@ -80,7 +80,9 @@ prepare() {
 }
 
 run_test_application() {
-  docker run --rm -d --cidfile=${cid_file} -p ${test_port} ${IMAGE_NAME}-${test_project}
+  echo "Starting test application"
+  docker run -d --cidfile=${cid_file} -p ${test_port} ${IMAGE_NAME}-${test_project}
+  echo "Waiting test application start, sleep 5 seconds"
   sleep 5
 }
 
@@ -88,6 +90,7 @@ cleanup() {
   if [ -f $cid_file ]; then
     if container_exists; then
       docker stop $(cat $cid_file)
+      docker rm $(cat $cid_file)
     fi
     rm -rf $cid_file
   fi
