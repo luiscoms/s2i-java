@@ -108,7 +108,7 @@ check_result() {
 
 wait_for_cid() {
   local max_attempts=10
-  local sleep_time=3
+  local sleep_time=1
   local attempt=1
   local result=1
   while [ $attempt -le $max_attempts ]; do
@@ -127,7 +127,7 @@ test_usage() {
 test_connection() {
   echo "Testing HTTP connection..."
   local max_attempts=10
-  local sleep_time=1
+  local sleep_time=3
   local attempt=1
   local result=1
 
