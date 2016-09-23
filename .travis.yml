@@ -15,6 +15,4 @@ install:
   - popd
 
 script: 
-  - make test VERSION=1.8-gradle
-  - docker ps -a
-  - make test VERSION=1.8-maven
+  - make test
