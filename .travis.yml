@@ -6,7 +6,6 @@ services:
 language: bash
 
 before_install:
-  - echo $PATH
   - curl -L https://github.com/openshift/source-to-image/releases/download/v1.1.1/source-to-image-v1.1.1-724c0dd-linux-386.tar.gz | tar xzv
   - sudo mv s2i /usr/local/bin/
 
