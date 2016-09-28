@@ -7,11 +7,11 @@
 #	https://github.com/openshift/source-to-image/blob/master/docs/builder_image.md
 #
 
-ARTIFACT_DIR=${ARTIFACT_DIR:-target}
+ARTIFACT_DIR=${ARTIFACT_DIR:-.}
 echo "---> Starting Spring Boot application"
 echo "--> # APP_FILE = $APP_FILE"
 echo "--> # JAVA_OPTS = $JAVA_OPTS"
-APP_FILE="${APP_FILE:-build/app.jar}"
+APP_FILE="${APP_FILE:-app.jar}"
 if [[ -f "$APP_FILE" ]]; then
   echo "---> Running application from jar (java $JAVA_OPTS -jar $APP_FILE) ..."
   java $JAVA_OPTS -jar $APP_FILE

@@ -4,7 +4,7 @@
 # The 'assemble' script builds your application source so that it is ready to run.
 #
 # For more information refer to the documentation:
-#	https://github.com/openshift/source-to-image/blob/master/docs/builder_image.md
+#   https://github.com/openshift/source-to-image/blob/master/docs/builder_image.md
 #
 
 if [[ "$1" == "-h" ]]; then
@@ -21,16 +21,36 @@ fi
 echo "---> Installing application source..."
 cp -Rf /tmp/src/. ./
 
-echo "Determinit builder"
-BUILDER=mvn
-if [ -f "mvnw" ]; then
-  echo "---> Building application with wrapper..."
-  BUILDER="./mvnw"
-# else
-#   echo "---> Building application with installed maven..."
-#   $BUILDER $BUILD_ARGS
+echo "Determining builder"
+# If a build.gradle is present, this is a normal build scenario so run gradle.
+if [ -f "build.gradle" ]; then
+  echo "Found build.gradle"
+  BUILDER=gradle
+  BUILD_ARGS=${GRADLE_ARGS:-"build"}
+  ARTIFACT_DIR=${ARTIFACT_DIR:-build/libs}
+  if [ -f "gradlew" ]; then
+    echo "---> Building application with wrapper..."
+    BUILDER="./gradlew"
+  fi
+fi
+# If a pom.xml is present, this is a normal build scenario so run maven.
+if [ -f "pom.xml" ]; then
+  echo "Found pom.xml"
+  # the subdirectory within LOCAL_SOURCE_DIR from where we should copy build
+  # artifacts (*.war, *.jar)
+  BUILDER=mvn
+  BUILD_ARGS=${MAVEN_ARGS:-"install"}
+  ARTIFACT_DIR=${ARTIFACT_DIR:-target}
+  if [ -f "mvnw" ]; then
+    echo "---> Building application with wrapper..."
+    BUILDER="./mvnw"
+  fi
 fi
 
+if [ -z "$BUILDER" ]; then
+  echo "---> Could not determine builder (gradle or maven)"
+  exit 1
+fi
 
 echo "---> Building application from source..."
 BUILD_ARGS=${BUILD_ARGS:-"install"}
@@ -40,10 +60,11 @@ echo "--> # BUILD_ARGS = $BUILD_ARGS"
 echo "---> Building application with..."
 echo "--------> $BUILDER $BUILD_ARGS"
 $BUILDER $BUILD_ARGS
-# if [ -f "mvnw" ]; then
-#   echo "---> Building application with maven wrapper..."
-#   ./mvnw $BUILD_ARGS
-# else
-#   echo "---> Building application with installed maven..."
-#   $BUILDER $BUILD_ARGS
-# fi
+
+echo "---> Rename artifact $(find $ARTIFACT_DIR -name *.jar)"
+result_file=$(find $ARTIFACT_DIR -name *.jar)
+if [ -z "$result_file" ]; then
+  echo "---> Build file could not be found"
+  exit 1
+fi
+mv $result_file app.jar
