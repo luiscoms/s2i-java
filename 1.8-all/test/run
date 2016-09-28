@@ -19,7 +19,7 @@ IMAGE_NAME=${IMAGE_NAME-s2i-java8-all-candidate}
 # Determining system utility executables (darwin compatibility check)
 READLINK_EXEC="readlink"
 MKTEMP_EXEC="mktemp"
-if (echo "$OSTYPE" | egrep -qs 'darwin'); then
+if (echo "$OSTYPE" | grep -qs 'darwin'); then
   ! type -a "greadlink" &>"/dev/null" || READLINK_EXEC="greadlink"
   ! type -a "gmktemp" &>"/dev/null" || MKTEMP_EXEC="gmktemp"
 fi
@@ -46,7 +46,7 @@ container_exists() {
 }
 
 container_ip() {
-  if (echo "$OSTYPE" | egrep -qs 'darwin'); then
+  if [ ! -z "$DOCKER_HOST" ] && (echo "$OSTYPE" | grep -qs 'darwin'); then
     docker-machine ip
   else
     docker inspect --format="{{ .NetworkSettings.IPAddress }}" $(cat $cid_file)
@@ -54,7 +54,7 @@ container_ip() {
 }
 
 container_port() {
-  if (echo "$OSTYPE" | egrep -qs 'darwin'); then
+  if [ ! -z "$DOCKER_HOST" ] && (echo "$OSTYPE" | grep -qs 'darwin'); then
     docker inspect --format='{{(index (index .NetworkSettings.Ports "8080/tcp") 0).HostPort}}' $(cat $cid_file)
   else
     echo $test_port
@@ -136,11 +136,6 @@ test_connection() {
 
   while [ $attempt -le $max_attempts ]; do
     echo "Sending GET request($attempt) to http://$(container_ip):$(container_port)/"
-    if (echo "$OSTYPE" | egrep -qs 'darwin'); then
-      echo "Warning for OSX users: if you can't access the container's IP ${container_ip} directly (because you use boot2docker for example)"
-      echo "you should run the curl command in a container, for example using:"
-      echo "docker run --rm -it sequenceiq/alpine-curl curl -s -w %{http_code} -o /dev/null http://$(container_ip):$(container_port)/"
-    fi
     response_code=$(curl -s -w %{http_code} -o /dev/null http://$(container_ip):$(container_port)/)
     status=$?
     if [ $status -eq 0 ]; then
