@@ -17,6 +17,7 @@ Versions
 Java versions currently provided are:
 * JDK-1.8 + Gradle 2
 * JDK-1.8 + Maven 3
+* JDK-1.8 + Gradle 2 + Maven 3
 
 CentOS versions currently supported are:
 * CentOS7
@@ -60,6 +61,28 @@ To build a Java image, choose either the Maven or Gradle with:
     ```
 
 
+*  **Gradle + Maven image**
+
+    To build a Java image with Gradle and Maven, you need to run the build on a properly.
+
+    ```
+    $ git clone https://github.com/luiscoms/s2i-java.git
+    $ cd s2i-java
+    $ make build VERSION=1.8-all
+    ```
+
+    This image is also available on DockerHub. To download it run:
+
+    ```
+    $ docker pull luiscoms/s2i-java:1.8-all
+    ```
+
+Or
+
+    ```
+    $ docker pull luiscoms/s2i-java
+    ```
+
 **Notice: By omitting the `VERSION` parameter, the build/test action will be performed on all provided versions of Java.**
 
 
@@ -72,12 +95,8 @@ see [usage documentation](1.8-gradle/README.md).
 For information about usage of Dockerfile for Java 1.8 with Maven,
 see [usage documentation](1.8-maven/README.md).
 
-For information about usage of Dockerfile for Python 3.4,
-see [usage documentation](3.4/README.md).
-
-For information about usage of Dockerfile for Python 3.5,
-see [usage documentation](3.5/README.md).
-
+For information about usage of Dockerfile for Java 1.8 with Gradle and Maven,
+see [usage documentation](1.8-all/README.md).
 
 Test
 ---------------------
@@ -96,16 +115,21 @@ Users can choose between testing a Java test application with Gradle or Maven.
 *  **Maven image**
 
     ```
-    $ cd s2i-maven
+    $ cd s2i-java
     $ make test VERSION=1.8-maven
     ```
 
-**Notice: By omitting the `VERSION` parameter, the build/test action will be performed on all provided versions of Java. Since we are currently providing only version `1.8-gradle` you can omit this parameter.**
+*  **Gradle + Maven image**
+
+    ```
+    $ cd s2i-all
+    $ make test VERSION=1.8-all
+    ```
 
 
 Repository organization
 ------------------------
-* **`<jdkVersion-(gradle|maven)>`**
+* **`<jdkVersion-(gradle|maven|all)>`**
 
     Dockerfile and scripts to build container images from.
 
