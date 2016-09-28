@@ -10,8 +10,7 @@
 # TAG_ON_SUCCESS - If set, tested image will be re-tagged as a non-candidate
 #       image, if the tests pass.
 # VERSIONS - Must be set to a list with possible versions (subdirectories)
-# OPENSHIFT_NAMESPACES - Which of available versions (subdirectories) should be
-#       put into openshift/ namespace.
+#
 
 # Versions are stored in subdirectories. You can specify VERSION variable
 # to build just one single version. By default we build all versions
