@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 #
 # The 'run' performs a simple test that verifies the S2I image.
 # The main focus here is to exercise the S2I scripts.

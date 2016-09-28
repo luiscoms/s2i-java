@@ -4,16 +4,11 @@ services:
   - docker
 
 language: bash
-# go: 1.6
 
 before_install:
+  - echo $PATH
   - curl -L https://github.com/openshift/source-to-image/releases/download/v1.1.1/source-to-image-v1.1.1-724c0dd-linux-386.tar.gz | tar xzv
   - sudo mv s2i /usr/local/bin/
-  # - go get github.com/openshift/source-to-image
-  # - pushd ${GOPATH}/src/github.com/openshift/source-to-image
-  # - export PATH=$PATH:${GOPATH}/src/github.com/openshift/source-to-image/_output/local/bin/linux/amd64/
-  # - hack/build-go.sh
-  # - popd
 
 script:
   - make test VERSION=1.8-all
