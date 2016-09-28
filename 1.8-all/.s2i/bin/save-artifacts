@@ -1,0 +1,8 @@
+#!/bin/sh -e
+
+if [ -d .m2 ];then
+  tar cf - .m2
+fi
+if [ -d .gradle ];then
+  tar cf - .gradle
+fi

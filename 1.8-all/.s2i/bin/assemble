@@ -1,0 +1,49 @@
+#!/bin/bash -e
+#
+# S2I assemble script for the 's2i-java8-maven' image.
+# The 'assemble' script builds your application source so that it is ready to run.
+#
+# For more information refer to the documentation:
+#	https://github.com/openshift/source-to-image/blob/master/docs/builder_image.md
+#
+
+if [[ "$1" == "-h" ]]; then
+  exec /usr/libexec/s2i/usage
+fi
+
+# Restore artifacts from the previous build (if they exist).
+echo "---> Restoring build artifacts..."
+if [ "$(ls -A /tmp/artifacts/ 2>/dev/null)" ]; then
+  echo "---> Restoring found build artifacts..."
+  cp -Rf /tmp/artifacts/. ./
+fi
+
+echo "---> Installing application source..."
+cp -Rf /tmp/src/. ./
+
+echo "Determinit builder"
+BUILDER=mvn
+if [ -f "mvnw" ]; then
+  echo "---> Building application with wrapper..."
+  BUILDER="./mvnw"
+# else
+#   echo "---> Building application with installed maven..."
+#   $BUILDER $BUILD_ARGS
+fi
+
+
+echo "---> Building application from source..."
+BUILD_ARGS=${BUILD_ARGS:-"install"}
+echo "--> # BUILDER = $BUILDER"
+echo "--> # BUILD_ARGS = $BUILD_ARGS"
+
+echo "---> Building application with..."
+echo "--------> $BUILDER $BUILD_ARGS"
+$BUILDER $BUILD_ARGS
+# if [ -f "mvnw" ]; then
+#   echo "---> Building application with maven wrapper..."
+#   ./mvnw $BUILD_ARGS
+# else
+#   echo "---> Building application with installed maven..."
+#   $BUILDER $BUILD_ARGS
+# fi
