@@ -6,9 +6,9 @@ services:
 language: bash
 
 before_install:
-  - mkdir -p bin
-  - curl -L https://github.com/openshift/source-to-image/releases/download/v1.1.2/source-to-image-v1.1.2-5732fdd-linux-amd64.tar.gz | tar xzv -C bin
-  - export PATH=$PATH:$PWD/bin/
+  - ls -la $HOME
+  - mkdir -p $HOME/bin
+  - curl -L https://github.com/openshift/source-to-image/releases/download/v1.1.2/source-to-image-v1.1.2-5732fdd-linux-amd64.tar.gz | tar xzv -C $HOME/bin
   - echo $PATH
   - ls -la
 
