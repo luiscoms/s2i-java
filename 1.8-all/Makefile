@@ -10,4 +10,4 @@ test:
 	IMAGE_NAME=$(IMAGE_NAME)-candidate test/run test-app-mvn
 	# IMAGE_NAME=$(IMAGE_NAME)-candidate test/run test-app-mvnw
 	# IMAGE_NAME=$(IMAGE_NAME)-candidate test/run test-app-gradle
-	IMAGE_NAME=$(IMAGE_NAME)-candidate test/run test-app-gradlew
+	# IMAGE_NAME=$(IMAGE_NAME)-candidate test/run test-app-gradlew
