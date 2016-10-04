@@ -33,3 +33,13 @@ else
   echo "---> Building application with installed maven..."
   mvn $MAVEN_ARGS
 fi
+
+ARTIFACT_DIR=${ARTIFACT_DIR:-target}
+echo "--> # ARTIFACT_DIR = $ARTIFACT_DIR"
+echo "---> Rename artifact $(find $ARTIFACT_DIR -name *.jar)"
+result_file=$(find $ARTIFACT_DIR -name *.jar)
+if [ -z "$result_file" ]; then
+  echo "---> Build file could not be found"
+  exit 1
+fi
+mv $result_file app.jar
