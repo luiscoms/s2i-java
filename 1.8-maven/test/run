@@ -130,7 +130,7 @@ test_usage() {
 test_connection() {
   echo "Testing HTTP connection..."
   local max_attempts=10
-  local sleep_time=3
+  local sleep_time=5
   local attempt=1
   local result=1
 
