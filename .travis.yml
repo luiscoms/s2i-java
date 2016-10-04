@@ -10,5 +10,6 @@ before_install:
   - curl -L https://github.com/openshift/source-to-image/releases/download/v1.1.2/source-to-image-v1.1.2-5732fdd-linux-amd64.tar.gz | tar xzv -C $HOME/bin
 
 script:
-  - make test VERSION=1.8-all
+  - make test VERSION=1.8-maven
   - make test VERSION=1.8-gradle
+  - make test VERSION=1.8-all
