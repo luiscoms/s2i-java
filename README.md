@@ -1,7 +1,15 @@
-Java Docker images
-====================
+OpenShift S2I Builder for Java Docker images
+====
 
 [![Build Status](https://travis-ci.org/luiscoms/s2i-java.svg?branch=master)](https://travis-ci.org/luiscoms/s2i-java)
+
+Supported tags and respective `Dockerfile` links
+---------
+
+- [`1.8-all`, `latest` (*Dockerfile*)](http://github.com/luiscoms/s2i-java/blob/master/1.8-all/Dockerfile)
+- [`1.8-gradle` (*Dockerfile*)](http://github.com/luiscoms/s2i-java/blob/master/1.8-gradle/Dockerfile)
+- [`1.8-maven` (*Dockerfile*)](http://github.com/luiscoms/s2i-java/blob/master/1.8-maven/Dockerfile)
+
 
 This repository contains the source for building various versions of
 the Java application as a reproducible Docker image using
@@ -13,7 +21,7 @@ For more information about using these images with OpenShift, please see the
 official [OpenShift Documentation](https://docs.openshift.org/latest/using_images/s2i_images/python.html).
 
 Versions
----------------
+--------
 Java versions currently provided are:
 * JDK-1.8 + Gradle 2
 * JDK-1.8 + Maven 3
@@ -24,7 +32,7 @@ CentOS versions currently supported are:
 
 
 Installation
--------------
+------------
 
 To build a Java image, choose either the Maven or Gradle with:
 
@@ -87,7 +95,7 @@ Or
 
 
 Usage
----------------------------------
+-----
 
 For information about usage of Dockerfile for Java 1.8 with Gradle,
 see [usage documentation](1.8-gradle/README.md).
@@ -99,7 +107,8 @@ For information about usage of Dockerfile for Java 1.8 with Gradle and Maven,
 see [usage documentation](1.8-all/README.md).
 
 Test
----------------------
+----
+
 This repository also provides a [S2I](https://github.com/openshift/source-to-image) test framework,
 which launches tests to check functionality of a simple Java application built on top of the s2i-java image.
 

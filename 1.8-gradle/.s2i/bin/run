@@ -11,12 +11,12 @@ ARTIFACT_DIR=${ARTIFACT_DIR:-build}
 echo "---> Starting Spring Boot application"
 echo "--> # APP_FILE = $APP_FILE"
 echo "--> # JAVA_OPTS = $JAVA_OPTS"
-echo "--> # APP_OPTS = $APP_OPTS"
-APP_FILE="${APP_FILE:-build/app.jar}"
+APP_FILE="${APP_FILE:-app.jar}"
 if [[ -f "$APP_FILE" ]]; then
-  echo "---> Running application from jar ($APP_FILE) ..."
-  java $JAVA_OPTS -jar $APP_FILE $APP_OPTS
+  echo "---> APP_FILE found"
+  echo "---> Running application from jar (java $JAVA_OPTS -jar $APP_FILE) ..."
+  java $JAVA_OPTS -jar $APP_FILE
 else
-  echo "---> Running application from jar ($(find $ARTIFACT_DIR -name *.jar)) ..."
-  java $JAVA_OPTS -jar `find $ARTIFACT_DIR -name *.jar` $APP_OPTS
+  echo "---> Running application from jar (java $JAVA_OPTS -jar $(find $ARTIFACT_DIR -name *.jar)) ..."
+  java $JAVA_OPTS -jar `find $ARTIFACT_DIR -name *.jar`
 fi

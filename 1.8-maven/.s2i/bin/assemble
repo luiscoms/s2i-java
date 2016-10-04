@@ -24,12 +24,12 @@ echo "---> Installing application source..."
 cp -Rf /tmp/src/. ./
 
 echo "---> Building application from source..."
-MVN_ARGS=${MVN_ARGS:-"install"}
-echo "--> # MVN_ARGS = $MVN_ARGS"
+MAVEN_ARGS=${MAVEN_ARGS:-"install"}
+echo "--> # MAVEN_ARGS = $MAVEN_ARGS"
 if [ -f "mvnw" ]; then
   echo "---> Building application with maven wrapper..."
-  ./mvnw $MVN_ARGS
+  ./mvnw $MAVEN_ARGS
 else
   echo "---> Building application with installed maven..."
-  mvn $MVN_ARGS
+  mvn $MAVEN_ARGS
 fi

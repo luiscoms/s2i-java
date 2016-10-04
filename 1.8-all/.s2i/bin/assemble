@@ -26,7 +26,7 @@ echo "Determining builder"
 if [ -f "build.gradle" ]; then
   echo "Found build.gradle"
   BUILDER=gradle
-  BUILD_ARGS=${GRADLE_ARGS:-"build"}
+  BUILD_ARGS=${GRADLE_ARGS:-${BUILD_ARGS:-"build"}}
   ARTIFACT_DIR=${ARTIFACT_DIR:-build/libs}
   if [ -f "gradlew" ]; then
     echo "---> Building application with wrapper..."
@@ -39,7 +39,7 @@ if [ -f "pom.xml" ]; then
   # the subdirectory within LOCAL_SOURCE_DIR from where we should copy build
   # artifacts (*.war, *.jar)
   BUILDER=mvn
-  BUILD_ARGS=${MAVEN_ARGS:-"install"}
+  BUILD_ARGS=${MAVEN_ARGS:-${BUILD_ARGS:-"install"}}
   ARTIFACT_DIR=${ARTIFACT_DIR:-target}
   if [ -f "mvnw" ]; then
     echo "---> Building application with wrapper..."

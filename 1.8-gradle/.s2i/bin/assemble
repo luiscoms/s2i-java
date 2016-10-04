@@ -32,3 +32,11 @@ else
   echo "---> Building application with installed gradle..."
   gradle $GRADLE_ARGS
 fi
+
+echo "---> Rename artifact $(find $ARTIFACT_DIR -name *.jar)"
+result_file=$(find $ARTIFACT_DIR -name *.jar)
+if [ -z "$result_file" ]; then
+  echo "---> Build file could not be found"
+  exit 1
+fi
+mv $result_file app.jar
