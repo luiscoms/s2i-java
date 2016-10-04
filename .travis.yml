@@ -11,3 +11,4 @@ before_install:
 
 script:
   - make test VERSION=1.8-all
+  - make test VERSION=1.8-gradle
