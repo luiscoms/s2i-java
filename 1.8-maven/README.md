@@ -9,7 +9,7 @@ BUILD ENV Options
 ===
 
 * *MAVEN_ARGS*: Allows you to specify options to pass to maven (Default: `install`)
-* *ARTIFACT_DIR*: Path to find where the jar files are created when build (Default: `terget`)
+* *ARTIFACT_DIR*: Path to find where the jar files are created when build (Default: `target`)
 
 RUN ENV Options
 ===
