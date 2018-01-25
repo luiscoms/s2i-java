@@ -30,8 +30,6 @@ RUN curl -sL -0 https://services.gradle.org/distributions/gradle-${GRADLE_VERSIO
     ln -sf /usr/local/gradle/bin/gradle /usr/local/bin/gradle
 
 COPY ./.s2i/bin/ $STI_SCRIPTS_PATH
-ADD newrelic/newrelic.jar newrelic.jar
-ADD newrelic/newrelic.yml newrelic.yml
 
 RUN chown -R 1001:1001 /opt/app-root
 
