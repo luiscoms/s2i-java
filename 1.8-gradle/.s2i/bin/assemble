@@ -43,3 +43,12 @@ if [ -z "$result_file" ]; then
   exit 1
 fi
 mv $result_file app.jar
+
+relic_file=$(find src/main/resources/newrelic -name newrelic.jar)
+if [ -z "$relic_file" ]; then
+  echo "---> New Relic file could not be found"
+  exit 1
+fi
+echo "--> Copying New Relic files..."
+cp src/main/resources/newrelic/newrelic.jar newrelic.jar
+cp src/main/resources/newrelic/newrelic.yml newrelic.yml

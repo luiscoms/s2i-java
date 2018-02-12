@@ -8,15 +8,18 @@
 #
 
 ARTIFACT_DIR=${ARTIFACT_DIR:-build}
+NEW_RELIC=-javaagent:newrelic.jar
 echo "---> Starting Spring Boot application"
 echo "--> # APP_FILE = $APP_FILE"
 echo "--> # JAVA_OPTS = $JAVA_OPTS"
+echo "--> # NEW_RELIC = $NEW_RELIC"
+
 APP_FILE="${APP_FILE:-app.jar}"
 if [[ -f "$APP_FILE" ]]; then
   echo "---> APP_FILE found"
   echo "---> Running application from jar (java $JAVA_OPTS -jar $APP_FILE) ..."
-  java $JAVA_OPTS -jar $APP_FILE
+  java  $NEW_RELIC  $JAVA_OPTS -jar $APP_FILE
 else
   echo "---> Running application from jar (java $JAVA_OPTS -jar $(find $ARTIFACT_DIR -name *.jar)) ..."
-  java $JAVA_OPTS -jar `find $ARTIFACT_DIR -name *.jar`
+  java  $NEW_RELIC  $JAVA_OPTS -jar `find $ARTIFACT_DIR -name *.jar`
 fi
