@@ -49,4 +49,4 @@ oc import image luiscoms/s2i-java --all
 Samples
 ====
 
-There is a lot of example SpringBoot applications [here](https://github.com/spring-projects/spring-boot/tree/master/spring-boot-samples)
+There is a lot of example SpringBoot applications [here](https://github.com/spring-projects/spring-boot/tree/master/spring-boot-tests/spring-boot-smoke-tests/)
