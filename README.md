@@ -20,6 +20,10 @@ The resulting image can be run using [Docker](http://docker.io).
 For more information about using these images with OpenShift, please see the
 official [OpenShift Documentation](https://docs.openshift.org/latest/using_images/s2i_images/python.html).
 
+For a very similar S2I Java builder with some more options and flexibility, consider [fabric8io-images/s2i](https://github.com/fabric8io-images/s2i), AKA [fabric8/s2i-java on Docker Hub](https://hub.docker.com/r/fabric8/s2i-java/).
+It [also supports Java 11, in addition to Gradle, Maven and Java 8 as per this blog post](http://blog2.vorburger.ch/2018/11/s2i-with-java-11-gradle-builds-for.html).
+
+
 Versions
 --------
 Java versions currently provided are:
